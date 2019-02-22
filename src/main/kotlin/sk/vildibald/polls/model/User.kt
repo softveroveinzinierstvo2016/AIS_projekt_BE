@@ -12,22 +12,35 @@ import javax.validation.constraints.Size
     UniqueConstraint(columnNames = ["email"])
 ])
 data class User(
-        @NotBlank
-        @Size(max = 60)
-        val name: String,
 
-        @Size(max = 20)
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        val id: Long,
+
+        @NotBlank
+        @Size(max = 255)
+        val performerName: String,
+
+        @Size(max = 255)
         val username: String,
 
         @NaturalId
         @NotBlank
-        @Size(max = 40)
+        @Size(max = 255)
         val email: String,
 
         @NotBlank
         @Size(max = 100)
         val password: String,
 
-        @ManyToMany(fetch = FetchType.EAGER)
-        val roles: Set<Role>
-) : DateAuditEntity()
+        val isSolo: Boolean,
+
+        @Size(max = 255)
+        val web: String,
+
+        @Size(max = 255)
+        val youtube: String,
+
+        @Size(max = 255)
+        val otherInfo: String
+)

@@ -16,14 +16,5 @@ interface UserController {
     fun userProfile(username: String)
             : UserProfile
 
-    fun pollsCreatedBy(username: String,
-                       currentUser: UserPrincipal,
-                       page: Int,
-                       size: Int)
-            : PagedResponse<ExtendedPollResponse>
 
-    fun pollsVotedBy(username: String,
-                     currentUser: UserPrincipal,
-                     page: Int,
-                     size: Int): PagedResponse<ExtendedPollResponse>
 }

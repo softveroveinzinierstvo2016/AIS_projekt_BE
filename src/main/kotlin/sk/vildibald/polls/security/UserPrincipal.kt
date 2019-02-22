@@ -18,17 +18,15 @@ class UserPrincipal(
         val email: String,
 
         @JsonIgnore
-        private val password: String,
+        private val password: String
 
-        private val authorities: MutableCollection<out GrantedAuthority>
 ): UserDetails {
     constructor(user: User): this(
             id = user.id,
-            name = user.name,
+            name = user.performerName,
             username = user.username,
             email = user.email,
-            password = user.password,
-            authorities = user.roles.map { SimpleGrantedAuthority(it.name.name) }.toMutableList()
+            password = user.password
     )
 
     override fun getAuthorities(): MutableCollection<out GrantedAuthority> = authorities

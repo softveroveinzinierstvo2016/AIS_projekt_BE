@@ -6,6 +6,6 @@ import sk.vildibald.polls.payload.UserSummary
 
 class UserConverter : Converter<User, UserSummary> {
     override fun convert(source: User): UserSummary =
-            UserSummary(source.id, source.username, source.name)
+            UserSummary(source.id, source.username, source.performerName)
 
 }
