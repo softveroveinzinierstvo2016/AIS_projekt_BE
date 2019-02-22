@@ -20,7 +20,6 @@ import sk.vildibald.polls.payload.*
 @RestController
 @RequestMapping("/api")
 class UserControllerImpl(
-        private val pollService: PollService,
         private val userService: UserService
 ) : UserController {
     private val logger = LoggerFactory.getLogger(UserControllerImpl::class.java)
@@ -43,28 +42,4 @@ class UserControllerImpl(
     @GetMapping("/users/{username}")
     override fun userProfile(@PathVariable(value = "username") username: String): UserProfile =
             userService.userProfile(username)
-
-    @GetMapping("/users/{username}/polls")
-    override fun pollsCreatedBy(@PathVariable(value = "username")
-                                username: String,
-                                @CurrentUser
-                                currentUser: UserPrincipal,
-                                @RequestParam(value = "page", defaultValue = DEFAULT_PAGE_NUMBER.toString())
-                                page: Int,
-                                @RequestParam(value = "size", defaultValue = DEFAULT_PAGE_SIZE.toString())
-                                size: Int)
-            : PagedResponse<ExtendedPollResponse> =
-            pollService.pollsCreatedBy(username, currentUser, page, size)
-
-
-    @GetMapping("/users/{username}/votes")
-    override fun pollsVotedBy(@PathVariable(value = "username")
-                              username: String,
-                              @CurrentUser
-                              currentUser: UserPrincipal,
-                              @RequestParam(value = "page", defaultValue = DEFAULT_PAGE_NUMBER.toString())
-                              page: Int,
-                              @RequestParam(value = "size", defaultValue = DEFAULT_PAGE_SIZE.toString()) size:
-                              Int): PagedResponse<ExtendedPollResponse> =
-            pollService.pollsVotedBy(username, currentUser, page, size)
 }

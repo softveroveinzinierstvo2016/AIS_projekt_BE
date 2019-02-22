@@ -6,17 +6,13 @@ import sk.vildibald.polls.exception.ResourceNotFoundException
 import sk.vildibald.polls.payload.UserIdentityAvailability
 import sk.vildibald.polls.payload.UserProfile
 import sk.vildibald.polls.payload.UserSummary
-import sk.vildibald.polls.repository.PollRepository
 import sk.vildibald.polls.repository.UserRepository
-import sk.vildibald.polls.repository.VoteRepository
 import sk.vildibald.polls.security.UserPrincipal
 import sk.vildibald.polls.service.UserService
 
 @Service
 class UserServiceImpl(
-        val userRepository: UserRepository,
-        val pollRepository: PollRepository,
-        val voteRepository: VoteRepository
+        val userRepository: UserRepository
 
 ) : UserService {
 
@@ -39,16 +35,10 @@ class UserServiceImpl(
         val user = (userRepository.findOneByUsername(username)
                 ?: throw ResourceNotFoundException("User", "username", username))
 
-        val numPolls = pollRepository.countByCreatedBy(user.id)
-        val numVotes = voteRepository.countByUserId(user.id)
-
         return UserProfile(
                 id = user.id,
                 username = user.username,
-                name = user.name,
-                joinedAt = user.createdAt,
-                voteCount = numVotes,
-                pollCount = numPolls
+                name = user.performerName
         )
     }
 }

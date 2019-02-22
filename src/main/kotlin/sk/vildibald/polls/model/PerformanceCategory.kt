@@ -3,22 +3,25 @@ package sk.vildibald.polls.model
 import org.hibernate.annotations.BatchSize
 import org.hibernate.annotations.Fetch
 import org.hibernate.annotations.FetchMode
-import sk.vildibald.polls.model.audit.UserDateAuditEntity
-import java.time.Instant
+import org.hibernate.annotations.NaturalId
 import javax.persistence.*
-import javax.validation.constraints.NotBlank
-import javax.validation.constraints.NotNull
 import javax.validation.constraints.Size
 
+
 @Entity
-@Table(name = "polls")
-data class Poll(
-        @NotBlank
-        @Size(max = 200)
-        val question: String,
+@Table(name = "performance_categories")
+data class PerformanceCategory (
+
+        @Id
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        val id: Long,
+
+        @NaturalId
+        @Column(length = 60)
+        val categoryName: String,
 
         @OneToMany(
-                mappedBy = "poll",
+                mappedBy = "category",
                 cascade = [CascadeType.ALL],
                 fetch = FetchType.EAGER,
                 orphanRemoval = true
@@ -26,9 +29,5 @@ data class Poll(
         @Size(min = 2, max = 6)
         @Fetch(FetchMode.SELECT)
         @BatchSize(size = 30)
-        val choices: List<Choice> = listOf(),
-
-        @NotNull
-        val expirationDateTime: Instant
-) : UserDateAuditEntity()
-
+        val subCategories: List<PerformanceSubCategory> = listOf()
+)

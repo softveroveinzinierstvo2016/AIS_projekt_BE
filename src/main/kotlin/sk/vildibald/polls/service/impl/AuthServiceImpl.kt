@@ -39,7 +39,7 @@ class AuthServiceImpl(
     }
 
     override fun registerUser(signUpRequest: SignUpRequest): ApiResponse {
-        val (name, username, email, password) = signUpRequest
+        val (id, name, username, email, password, isSolo, web, youtube, otherInfo) = signUpRequest
         if (userRepository.existsByUsername(username)) {
             return ApiResponse(false, "Username '$username' is already taken!")
         }
@@ -47,15 +47,16 @@ class AuthServiceImpl(
             return ApiResponse(false, "Email address '$email' is already in use!")
         }
 
-        val role = roleRepository.findOneByName(RoleName.ROLE_USER)
-                ?: throw AppException("User role not set.")
-
         val newUser = User(
-                name = name,
+                id = id,
+                performerName = name,
                 username = username,
                 email = email,
                 password = passwordEncoder.encode(password),
-                roles = setOf(role)
+                isSolo = isSolo,
+                web = web,
+                youtube = youtube,
+                otherInfo = otherInfo
         )
 
         userRepository.save(newUser)
