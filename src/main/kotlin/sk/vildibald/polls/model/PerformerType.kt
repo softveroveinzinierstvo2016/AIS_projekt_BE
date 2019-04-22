@@ -16,4 +16,5 @@ data class PerformerType (
         @NaturalId
         @Column(length = 60)
         val typeName: String
+
 )

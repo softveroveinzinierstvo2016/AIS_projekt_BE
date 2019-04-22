@@ -11,6 +11,8 @@ data class PerformanceSubCategory (
         @NaturalId
         @Column(length = 60)
         val subcategoryName: String
+
+
 ) : PersistableEntity() {
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "category_id", nullable = false)

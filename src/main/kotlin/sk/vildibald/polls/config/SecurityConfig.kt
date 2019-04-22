@@ -74,12 +74,12 @@ class SecurityConfig(
                         "/**/*.css",
                         "/**/*.js")
                 .permitAll()
-                .antMatchers("/hello", "/api/auth/**")
+                .antMatchers("/hello", "/api/auth/**", "/api/**")
                 .permitAll()
                 .antMatchers("/api/user/checkUsernameAvailability",
                         "/api/user/checkEmailAvailability")
                 .permitAll()
-                .antMatchers(HttpMethod.GET, "/api/polls/**", "/api/users/**")
+                .antMatchers(HttpMethod.GET, "/api/signup", "/api/users/**")
                 .permitAll()
                 .anyRequest()
                 .authenticated()

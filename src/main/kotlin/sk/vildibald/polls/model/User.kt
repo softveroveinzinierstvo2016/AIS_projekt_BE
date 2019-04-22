@@ -2,6 +2,9 @@ package sk.vildibald.polls.model
 
 import org.hibernate.annotations.NaturalId
 import sk.vildibald.polls.model.audit.DateAuditEntity
+import sk.vildibald.polls.payload.PerformanceSubCategoryRequest
+import sk.vildibald.polls.payload.PerformerStyleRequest
+import sk.vildibald.polls.payload.PerformerTypeRequest
 import javax.persistence.*
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Size
@@ -13,14 +16,11 @@ import javax.validation.constraints.Size
 ])
 data class User(
 
-        @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
-        val id: Long,
-
         @NotBlank
         @Size(max = 255)
         val performerName: String,
 
+        @NotBlank
         @Size(max = 255)
         val username: String,
 
@@ -33,7 +33,20 @@ data class User(
         @Size(max = 100)
         val password: String,
 
-        val isSolo: Boolean,
+        @NotBlank
+        val isSolo: Boolean = false,
+
+        @NotBlank
+        @ManyToMany
+        val performerType: List<PerformerType>,
+
+        @NotBlank
+        @ManyToMany
+        val performerStyle: List<PerformerStyle>,
+
+        @NotBlank
+        @OneToMany(fetch = FetchType.LAZY)
+        val pricedPerformanceSubcategories: List<PricedPerformanceSubcategory>,
 
         @Size(max = 255)
         val web: String,
@@ -43,4 +56,4 @@ data class User(
 
         @Size(max = 255)
         val otherInfo: String
-)
+) : DateAuditEntity()

@@ -31,9 +31,9 @@ INSERT INTO performance_subcategories(subcategory_name, category_id) VALUES
 (N'Celovečerná akcia', 2),
 (N'Pódiové vystúpenie', 3)
 ON CONFLICT DO NOTHING;
-
+/*
 INSERT INTO users(performer_name, username, email, password, is_solo) VALUES
 ('Hollárovci', 'Hollárovci', 'Hollarovci@gmail.com', '4saksjagkassad43s', '0'),
 ('DJ Kladivo', 'ferihruska', 'djkladivo@gmail.com', '7slkhjluisssad', '1'),
 ('Klaun Krusty', 'krusty', 'klaunkrusty@simpsons.com', 'asdaw_??sluisssad', '0')
-ON CONFLICT DO NOTHING;
+ON CONFLICT DO NOTHING;*/

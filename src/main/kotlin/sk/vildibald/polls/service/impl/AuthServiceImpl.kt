@@ -12,8 +12,7 @@ import sk.vildibald.polls.payload.ApiResponse
 import sk.vildibald.polls.payload.JwtAuthenticationResponse
 import sk.vildibald.polls.payload.LoginRequest
 import sk.vildibald.polls.payload.SignUpRequest
-import sk.vildibald.polls.repository.RoleRepository
-import sk.vildibald.polls.repository.UserRepository
+import sk.vildibald.polls.repository.*
 import sk.vildibald.polls.security.JwtTokenProvider
 import sk.vildibald.polls.service.AuthService
 
@@ -21,7 +20,9 @@ import sk.vildibald.polls.service.AuthService
 class AuthServiceImpl(
         private val authenticationManager: AuthenticationManager,
         private val userRepository: UserRepository,
-        private val roleRepository: RoleRepository,
+        private val performerStyleRepository: PerformerStyleRepository,
+        private val performerTypeRepository: PerformerTypeRepository,
+        private val performanceSubCategoryRepository: PerformanceSubCategoryRepository,
         private val passwordEncoder: PasswordEncoder,
         private val tokenProvider: JwtTokenProvider
 ) : AuthService {
@@ -39,7 +40,8 @@ class AuthServiceImpl(
     }
 
     override fun registerUser(signUpRequest: SignUpRequest): ApiResponse {
-        val (id, name, username, email, password, isSolo, web, youtube, otherInfo) = signUpRequest
+        val (username, password, name, email, isSolo, performerTypeIds, performerStyleIds,
+                pricedPerformanceSubcategory, web, youtubeLink, otherPerformerInfo) = signUpRequest
         if (userRepository.existsByUsername(username)) {
             return ApiResponse(false, "Username '$username' is already taken!")
         }
@@ -47,16 +49,22 @@ class AuthServiceImpl(
             return ApiResponse(false, "Email address '$email' is already in use!")
         }
 
+        val performerType = performerTypeRepository.findById(performerTypeIds)
+
+        val performerStyle = performerStyleRepository.findById(performerStyleIds)
+
         val newUser = User(
-                id = id,
-                performerName = name,
                 username = username,
-                email = email,
                 password = passwordEncoder.encode(password),
+                performerName = name,
+                email = email,
                 isSolo = isSolo,
+                performerType = performerType,
+                performerStyle = performerStyle,
+                pricedPerformanceSubcategories = pricedPerformanceSubcategory,
                 web = web,
-                youtube = youtube,
-                otherInfo = otherInfo
+                youtube = youtubeLink,
+                otherInfo = otherPerformerInfo
         )
 
         userRepository.save(newUser)

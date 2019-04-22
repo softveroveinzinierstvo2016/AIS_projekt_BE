@@ -11,4 +11,6 @@ interface PerformanceSubCategoryRepository : JpaRepository<PerformanceSubCategor
 
     @Query(value = "SELECT s FROM PerformanceSubCategory s where s.category.id in :categoryIds")
     fun findByCategoryIdIn(@Param("categoryIds") categoryIds: Iterable<Long>): List<PerformanceSubCategory>
+
+    fun findById(subcategoryIds: List<Long>) : List<PerformanceSubCategory>
 }

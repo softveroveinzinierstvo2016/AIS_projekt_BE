@@ -1,5 +1,6 @@
 package sk.vildibald.polls.controller.impl
 
+import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import org.springframework.web.bind.annotation.RestController
@@ -8,10 +9,10 @@ import sk.vildibald.polls.payload.*
 import sk.vildibald.polls.service.InfoService
 
 @RestController
-@RequestMapping("/api/signup")
+@RequestMapping("/api")
 class InfoControllerImpl (private val infoService: InfoService) : InfoController{
 
-    @GetMapping
+    @GetMapping("/signup")
     override fun allInfo(): InfoResponse {
         return infoService.allInfo()
     }

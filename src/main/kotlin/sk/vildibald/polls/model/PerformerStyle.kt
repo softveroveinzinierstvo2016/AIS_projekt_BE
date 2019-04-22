@@ -17,4 +17,5 @@ data class PerformerStyle (
     @NaturalId
     @Column(length = 60)
     val styleName: String
+
 )
