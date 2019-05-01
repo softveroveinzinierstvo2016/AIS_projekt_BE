@@ -8,8 +8,6 @@ import javax.validation.constraints.NotBlank
 @Table(name = "priced_performance_subcategory")
 data class PricedPerformanceSubcategory(
 
-        //val userId: Long,
-
         @NotBlank
         val performanceSubcategory: Long,
 

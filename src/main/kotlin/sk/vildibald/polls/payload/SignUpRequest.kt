@@ -1,10 +1,6 @@
 package sk.vildibald.polls.payload
 
 import sk.vildibald.polls.model.PricedPerformanceSubcategory
-import javax.persistence.Column
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
 import javax.validation.constraints.Email
 import javax.validation.constraints.NotBlank
 import javax.validation.constraints.Size
@@ -38,13 +34,13 @@ data class SignUpRequest(
         val performerStyle: List<Long>,
 
         @NotBlank
-        val pricedPerformanceSubcategory: List<PricedPerformanceSubcategory>,
+        val pricedPerformanceSubcategory: List<PricedPerformanceSubcategoryRequest>,
 
         @Size(max = 255)
-        val web: String,
+        val web: String = "",
 
         @Size(max = 255)
-        val youtubeLink: String,
+        val youtubeLink: String = "",
 
         @Size(max = 255)
         val otherPerformerInfo: String

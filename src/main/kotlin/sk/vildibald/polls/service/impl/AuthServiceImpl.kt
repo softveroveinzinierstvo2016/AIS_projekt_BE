@@ -1,11 +1,13 @@
 package sk.vildibald.polls.service.impl
 
+import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import sk.vildibald.polls.exception.AppException
+import sk.vildibald.polls.model.PricedPerformanceSubcategory
 import sk.vildibald.polls.model.RoleName
 import sk.vildibald.polls.model.User
 import sk.vildibald.polls.payload.ApiResponse
@@ -22,7 +24,7 @@ class AuthServiceImpl(
         private val userRepository: UserRepository,
         private val performerStyleRepository: PerformerStyleRepository,
         private val performerTypeRepository: PerformerTypeRepository,
-        private val performanceSubCategoryRepository: PerformanceSubCategoryRepository,
+        private val pricedPerformanceSubcategoryRepository: PricedPerformanceSubcategoryRepository,
         private val passwordEncoder: PasswordEncoder,
         private val tokenProvider: JwtTokenProvider
 ) : AuthService {
@@ -41,7 +43,7 @@ class AuthServiceImpl(
 
     override fun registerUser(signUpRequest: SignUpRequest): ApiResponse {
         val (username, password, name, email, isSolo, performerTypeIds, performerStyleIds,
-                pricedPerformanceSubcategory, web, youtubeLink, otherPerformerInfo) = signUpRequest
+                pricedPerformanceSubcategoryRequest, web, youtubeLink, otherPerformerInfo) = signUpRequest
         if (userRepository.existsByUsername(username)) {
             return ApiResponse(false, "Username '$username' is already taken!")
         }
@@ -49,9 +51,9 @@ class AuthServiceImpl(
             return ApiResponse(false, "Email address '$email' is already in use!")
         }
 
-        val performerType = performerTypeRepository.findById(performerTypeIds)
+        val performerType = performerTypeRepository.findByIdIn(performerTypeIds)
 
-        val performerStyle = performerStyleRepository.findById(performerStyleIds)
+        val performerStyle = performerStyleRepository.findByIdIn(performerStyleIds)
 
         val newUser = User(
                 username = username,
@@ -61,13 +63,24 @@ class AuthServiceImpl(
                 isSolo = isSolo,
                 performerType = performerType,
                 performerStyle = performerStyle,
-                pricedPerformanceSubcategories = pricedPerformanceSubcategory,
+                pricedPerformanceSubcategories = listOf(),
                 web = web,
                 youtube = youtubeLink,
                 otherInfo = otherPerformerInfo
         )
 
         userRepository.save(newUser)
+
+        val newPricedPerformanceSubcategories = pricedPerformanceSubcategoryRequest.map { pricedPerformanceSubcategoryReq ->
+            PricedPerformanceSubcategory(
+                    pricedPerformanceSubcategoryReq.performanceSubcategory,
+                    pricedPerformanceSubcategoryReq.informativePrice,
+                    pricedPerformanceSubcategoryReq.priceDescription,
+                    newUser
+            )
+        }
+
+        pricedPerformanceSubcategoryRepository.saveAll(newPricedPerformanceSubcategories)
 
         return ApiResponse(true, "User registered successfully.")
     }

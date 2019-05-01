@@ -10,6 +10,4 @@ interface PerformerTypeRepository: JpaRepository<PerformerType, Long> {
     fun findByIdIn(typeIds: Iterable<Long>): List<PerformerType>
 
     fun findByIdIn(typeIds: Iterable<Long>, sort: Sort): List<PerformerType>
-
-    fun findById(typeIds: List<Long>) : List<PerformerType>
 }

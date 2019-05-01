@@ -31,9 +31,21 @@ INSERT INTO performance_subcategories(subcategory_name, category_id) VALUES
 (N'Celovečerná akcia', 2),
 (N'Pódiové vystúpenie', 3)
 ON CONFLICT DO NOTHING;
-/*
+
 INSERT INTO users(performer_name, username, email, password, is_solo) VALUES
 ('Hollárovci', 'Hollárovci', 'Hollarovci@gmail.com', '4saksjagkassad43s', '0'),
 ('DJ Kladivo', 'ferihruska', 'djkladivo@gmail.com', '7slkhjluisssad', '1'),
 ('Klaun Krusty', 'krusty', 'klaunkrusty@simpsons.com', 'asdaw_??sluisssad', '0')
-ON CONFLICT DO NOTHING;*/
+ON CONFLICT DO NOTHING;
+
+INSERT INTO users_performer_type(user_id, performer_type_id) VALUES
+(1, 2)
+ON CONFLICT DO NOTHING;
+
+INSERT INTO users_performer_style(user_id, performer_style_id) VALUES
+(1, 3)
+ON CONFLICT DO NOTHING;
+
+INSERT INTO priced_performance_subcategory(informative_price, performance_subcategory, price_description, user_id) VALUES
+(100, 3, 'hranie', 1)
+ON CONFLICT DO NOTHING;
