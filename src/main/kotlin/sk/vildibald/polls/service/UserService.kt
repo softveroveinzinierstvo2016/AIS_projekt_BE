@@ -5,7 +5,8 @@ import sk.vildibald.polls.payload.UserProfile
 import sk.vildibald.polls.payload.UserSummary
 import sk.vildibald.polls.security.UserPrincipal
 
-interface UserService{
+interface UserService {
+
     fun currentUserInfo(currentUser: UserPrincipal): UserSummary
 
     fun checkUsernameAvailability(newUsername: String): UserIdentityAvailability

@@ -1,12 +1,12 @@
 package sk.vildibald.polls.controller
 
 import org.springframework.http.ResponseEntity
+import sk.vildibald.polls.payload.FilterRequest
+import sk.vildibald.polls.payload.FilterResponse
 import sk.vildibald.polls.payload.LoginRequest
 import sk.vildibald.polls.payload.SignUpRequest
 
-interface AuthController{
+interface FilterController{
 
-    fun authenticateUser(loginRequest: LoginRequest): ResponseEntity<*>
-
-    fun registerUser(signUpRequest: SignUpRequest): ResponseEntity<*>
+    fun filter(filterRequest: FilterRequest): FilterResponse
 }

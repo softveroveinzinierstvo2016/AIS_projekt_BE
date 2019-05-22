@@ -13,9 +13,7 @@ data class PerformerStyle (
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val id: Long,
 
-
     @NaturalId
     @Column(length = 60)
     val styleName: String
-
 )

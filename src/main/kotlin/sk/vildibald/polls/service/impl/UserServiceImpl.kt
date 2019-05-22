@@ -1,6 +1,5 @@
 package sk.vildibald.polls.service.impl
 
-import org.slf4j.LoggerFactory
 import org.springframework.stereotype.Service
 import sk.vildibald.polls.exception.ResourceNotFoundException
 import sk.vildibald.polls.payload.UserIdentityAvailability
@@ -15,8 +14,6 @@ class UserServiceImpl(
         val userRepository: UserRepository
 
 ) : UserService {
-
-    private val logger = LoggerFactory.getLogger(UserServiceImpl::class.java)
 
     override fun currentUserInfo(currentUser: UserPrincipal): UserSummary =
             UserSummary(
@@ -38,7 +35,7 @@ class UserServiceImpl(
         return UserProfile(
                 id = user.id,
                 username = user.username,
-                name = user.performerName
+                name = user.name
         )
     }
 }

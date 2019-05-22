@@ -6,7 +6,7 @@ import javax.persistence.*
 
 @Entity
 @Table(name = "performance_subcategories")
-data class PerformanceSubCategory (
+data class PerformanceSubCategory(
 
         @NaturalId
         @Column(length = 60)
@@ -14,7 +14,7 @@ data class PerformanceSubCategory (
 
 
 ) : PersistableEntity() {
+
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "category_id", nullable = false)
     lateinit var category: PerformanceCategory
 }

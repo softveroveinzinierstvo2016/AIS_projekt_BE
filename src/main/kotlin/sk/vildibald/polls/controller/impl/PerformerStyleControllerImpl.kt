@@ -10,10 +10,10 @@ import sk.vildibald.polls.service.PerformerStyleService
 
 @RestController
 @RequestMapping("/api/styles")
-class PerformerStyleControllerImpl (private val performerStyleService: PerformerStyleService) : PerformerStyleController{
+class PerformerStyleControllerImpl(
+        private val performerStyleService: PerformerStyleService
+) : PerformerStyleController{
 
     @GetMapping
-    override fun allStyles(): List<PerformerStyleResponse> {
-        return performerStyleService.allPerformerStyles()
-    }
+    override fun allStyles() = performerStyleService.allPerformerStyles()
 }

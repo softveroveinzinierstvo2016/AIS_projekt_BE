@@ -1,22 +1,30 @@
 package sk.vildibald.polls.model
 
+import com.fasterxml.jackson.annotation.JsonIgnore
+import org.hibernate.annotations.NaturalId
+import org.springframework.data.domain.Persistable
 import sk.vildibald.polls.model.audit.DateAuditEntity
+import sk.vildibald.polls.model.audit.PersistableEntity
 import javax.persistence.*
 import javax.validation.constraints.NotBlank
+import javax.validation.constraints.NotNull
 
 @Entity
 @Table(name = "priced_performance_subcategory")
 data class PricedPerformanceSubcategory(
 
-        @NotBlank
+        @NaturalId
         val performanceSubcategory: Long,
 
+        @NotNull
         val informativePrice: Int,
 
-        @NotBlank
-        val priceDescription: String,
+        @NotNull
+        val priceDescription: String
 
-        @ManyToOne(fetch = FetchType.EAGER)
-        val user: User
+) : PersistableEntity() {
 
-) : DateAuditEntity()
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JsonIgnore
+    lateinit var user: User
+}

@@ -2,5 +2,5 @@ package sk.vildibald.polls.payload
 
 data class PerformerTypeResponse (
         val id: Long,
-        val typeName: String
+        val name: String
 )

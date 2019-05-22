@@ -21,9 +21,9 @@ private val authService: AuthService
 ) : AuthController {
 
     @PostMapping("/signin")
-    override fun authenticateUser(@Valid @RequestBody loginRequest: LoginRequest): ResponseEntity<*> {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
-    }
+    override fun authenticateUser(@Valid @RequestBody loginRequest: LoginRequest): ResponseEntity<*> =
+            ResponseEntity.ok(authService.authenticateUser(loginRequest))
+
 
     @PostMapping("/signup")
     override fun registerUser(@Valid @RequestBody signUpRequest: SignUpRequest): ResponseEntity<*> {

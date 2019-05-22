@@ -1,14 +1,11 @@
 package sk.vildibald.polls.service.impl
 
-import org.springframework.data.repository.findByIdOrNull
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
-import sk.vildibald.polls.exception.AppException
 import sk.vildibald.polls.model.PricedPerformanceSubcategory
-import sk.vildibald.polls.model.RoleName
 import sk.vildibald.polls.model.User
 import sk.vildibald.polls.payload.ApiResponse
 import sk.vildibald.polls.payload.JwtAuthenticationResponse
@@ -28,6 +25,7 @@ class AuthServiceImpl(
         private val passwordEncoder: PasswordEncoder,
         private val tokenProvider: JwtTokenProvider
 ) : AuthService {
+
     override fun authenticateUser(loginRequest: LoginRequest): JwtAuthenticationResponse {
         val authentication = authenticationManager.authenticate(
                 UsernamePasswordAuthenticationToken(
@@ -58,26 +56,28 @@ class AuthServiceImpl(
         val newUser = User(
                 username = username,
                 password = passwordEncoder.encode(password),
-                performerName = name,
+                name = name,
                 email = email,
                 isSolo = isSolo,
                 performerType = performerType,
                 performerStyle = performerStyle,
-                pricedPerformanceSubcategories = listOf(),
+                pricedPerformanceSubcategory = listOf(),
                 web = web,
-                youtube = youtubeLink,
-                otherInfo = otherPerformerInfo
+                youtubeLink = youtubeLink,
+                otherPerformerInfo = otherPerformerInfo
         )
 
         userRepository.save(newUser)
 
         val newPricedPerformanceSubcategories = pricedPerformanceSubcategoryRequest.map { pricedPerformanceSubcategoryReq ->
-            PricedPerformanceSubcategory(
+            val c = PricedPerformanceSubcategory(
                     pricedPerformanceSubcategoryReq.performanceSubcategory,
                     pricedPerformanceSubcategoryReq.informativePrice,
-                    pricedPerformanceSubcategoryReq.priceDescription,
-                    newUser
+                    pricedPerformanceSubcategoryReq.priceDescription
             )
+            c.user = newUser
+
+            c
         }
 
         pricedPerformanceSubcategoryRepository.saveAll(newPricedPerformanceSubcategories)

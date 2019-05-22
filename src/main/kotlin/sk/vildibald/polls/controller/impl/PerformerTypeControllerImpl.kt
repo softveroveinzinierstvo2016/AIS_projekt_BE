@@ -10,10 +10,10 @@ import sk.vildibald.polls.service.PerformerTypeService
 
 @RestController
 @RequestMapping("/api/types")
-class PerformerTypeControllerImpl (private val performerTypeService: PerformerTypeService) : PerformerTypeController{
+class PerformerTypeControllerImpl(
+        private val performerTypeService: PerformerTypeService
+) : PerformerTypeController{
 
     @GetMapping
-    override fun allTypes(): List<PerformerTypeResponse> {
-        return performerTypeService.allPerformerTypes()
-    }
+    override fun allTypes() = performerTypeService.allPerformerTypes()
 }

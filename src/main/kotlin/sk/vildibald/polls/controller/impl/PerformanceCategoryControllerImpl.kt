@@ -10,11 +10,11 @@ import sk.vildibald.polls.service.PerformanceCategoryService
 
 @RestController
 @RequestMapping("/api/categories")
-class PerformanceCategoryControllerImpl (private val performanceCategoryService: PerformanceCategoryService) : PerformanceCategoryController {
+class PerformanceCategoryControllerImpl (
+        private val performanceCategoryService: PerformanceCategoryService
+) : PerformanceCategoryController {
 
     @GetMapping
-    override fun allCategories(): List<PerformanceCategoryResponse> {
-        return performanceCategoryService.allPerformanceCategories()
-    }
+    override fun allCategories() = performanceCategoryService.allPerformanceCategories()
 
 }

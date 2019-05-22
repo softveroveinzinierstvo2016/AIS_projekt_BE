@@ -2,7 +2,6 @@ package sk.vildibald.polls.security
 
 import com.fasterxml.jackson.annotation.JsonIgnore
 import org.springframework.security.core.GrantedAuthority
-import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails
 import sk.vildibald.polls.model.User
 import java.util.*
@@ -19,17 +18,16 @@ class UserPrincipal(
 
         @JsonIgnore
         private val password: String
-
 ): UserDetails {
     constructor(user: User): this(
             id = user.id,
-            name = user.performerName,
+            name = user.name,
             username = user.username,
             email = user.email,
             password = user.password
     )
 
-    override fun getAuthorities(): MutableCollection<out GrantedAuthority> = authorities
+    override fun getAuthorities(): MutableCollection<out GrantedAuthority> = emptyList<GrantedAuthority>().toMutableList()
 
     override fun isEnabled(): Boolean = true
 

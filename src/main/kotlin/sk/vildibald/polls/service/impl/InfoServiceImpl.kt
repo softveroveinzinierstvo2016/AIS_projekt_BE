@@ -1,11 +1,7 @@
 package sk.vildibald.polls.service.impl
 
 import org.springframework.stereotype.Service
-import sk.vildibald.polls.mapping.PerformanceSubCategoryConverter
-import sk.vildibald.polls.payload.InfoResponse
-import sk.vildibald.polls.payload.PerformanceCategoryResponse
-import sk.vildibald.polls.payload.PerformerStyleResponse
-import sk.vildibald.polls.payload.PerformerTypeResponse
+import sk.vildibald.polls.payload.*
 import sk.vildibald.polls.repository.PerformanceCategoryRepository
 import sk.vildibald.polls.repository.PerformerStyleRepository
 import sk.vildibald.polls.repository.PerformerTypeRepository
@@ -18,30 +14,28 @@ class InfoServiceImpl(private val performanceCategoryRepository: PerformanceCate
 
     override fun allInfo(): InfoResponse {
         val categories = performanceCategoryRepository.findAll()
-        val categoryResponsesData = categories.map { performanceCategory ->
+        val categoryResponsesData = categories.map { category ->
             PerformanceCategoryResponse(
-                    performanceCategory.id,
-                    performanceCategory.categoryName,
-                    performanceCategory.subCategories.map { performanceSubCategory ->
-                        PerformanceSubCategoryConverter().convert(performanceSubCategory)
-                    }
+                    category.id,
+                    category.categoryName,
+                    category.subCategories.map { PerformanceSubCategoryResponse(it.id, it.subcategoryName) }
             )
         }
         val types = performerTypeRepository.findAll()
-        val typeResponsesData = types.map { perfomerType ->
+        val typeResponsesData = types.map {
             PerformerTypeResponse(
-                    perfomerType.id,
-                    perfomerType.typeName
+                    it.id,
+                    it.typeName
             )
         }
         val styles = performerStyleRepository.findAll()
-        val styleResponsesData = styles.map { perfomerStyle ->
+        val styleResponsesData = styles.map {
             PerformerStyleResponse(
-                    perfomerStyle.id,
-                    perfomerStyle.styleName
+                    it.id,
+                    it.styleName
             )
         }
 
-        return InfoResponse(typeResponsesData,styleResponsesData,categoryResponsesData)
+        return InfoResponse(typeResponsesData, styleResponsesData, categoryResponsesData)
     }
 }
