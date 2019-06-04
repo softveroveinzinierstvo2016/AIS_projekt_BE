@@ -1,6 +1,7 @@
 package sk.vildibald.polls.model
 
 import org.hibernate.annotations.NaturalId
+import org.hibernate.validator.constraints.Length
 import sk.vildibald.polls.model.audit.PersistableEntity
 import javax.persistence.*
 import javax.validation.constraints.Size
@@ -12,17 +13,17 @@ import javax.validation.constraints.Size
 ])
 data class User(
 
-        @Size(max = 255)
+        @field:Length(max = 255)
         val username: String,
 
-        @Size(max = 100)
+        @field:Length(max = 100)
         val password: String,
 
-        @Size(max = 255)
+        @field:Length(max = 255)
         val name: String,
 
         @NaturalId
-        @Size(max = 255)
+        @field:Length(max = 255)
         val email: String,
 
         val isSolo: Boolean,
@@ -36,12 +37,13 @@ data class User(
         @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
         val pricedPerformanceSubcategory: List<PricedPerformanceSubcategory>,
 
-        @Size(max = 255)
+        @field:Length(max = 255)
         val web: String,
 
-        @Size(max = 255)
+        @field:Length(max = 255)
         val youtubeLink: String,
 
-        @Size(max = 255)
+        //@Length(max = 1000)
+        @field:Length(max = 1000)
         val otherPerformerInfo: String
 ) : PersistableEntity()

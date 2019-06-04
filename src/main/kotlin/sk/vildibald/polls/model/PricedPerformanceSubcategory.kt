@@ -13,7 +13,6 @@ import javax.validation.constraints.NotNull
 @Table(name = "priced_performance_subcategory")
 data class PricedPerformanceSubcategory(
 
-        @NaturalId
         val performanceSubcategory: Long,
 
         @NotNull
